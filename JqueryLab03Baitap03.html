@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Đăng nhập</title>
+    <script src="lib/jquery/dist/jquery.js"></script>
+    <script src="lib/jquery/jquery-ui-1.12.1/jquery-ui.js"></script>
+</head>
+<body>
+        <table align="center">
+            <tr><td colspan="2" align="center"><h2>Login</h2></td></tr>
+            <tr>
+                <td>Username: </td>
+                <td>
+                    <input type="text" id="txtUsername" placeholder="Input username"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Password: </td>
+                <td><input type="password" id="txtPass" placeholder="Input password"/></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button id="btnLogin">Login</button>
+                </td>
+            </tr>
+        </table>
+        <div style="text-align:center; color:red" id="thongbaoloi"></div>
+        <div id="datepicker"></div>
+    <style>
+        .loi {
+            color:red; background-color:yellow;
+        }
+    </style>
+    <script>
+        function kiemTraRong(obj) {
+            if (obj.val().length == 0) {
+                obj.addClass("loi");
+                //$("#thongbaoloi").html("Input username and password");
+                return true;
+            }
+            obj.removeClass("loi");
+            return false;
+        }
+        $(function () {
+            $("#btnLogin").click(function () {
+                let username = $("#txtUsername");
+                let password = $("#txtPass");
+
+                if ($(this).html() == "Logout") {
+                    $(this).html("Login");
+                    username.next().remove();
+                    username.show();
+                    username.val("");
+                    password.next().remove();
+                    password.show();
+                    password.val("");
+                    $("#thongbaoloi").html("");
+                    return true;
+                }
+
+                if (kiemTraRong(username) || kiemTraRong(password)) {
+                    return false;
+                }
+                //kiem tra username va password co dung khong
+                if (username.val().length < 4 || password.val().length < 4) {
+                    $("#thongbaoloi").html("Login failed");
+                    return false;
+                }
+                $("#thongbaoloi").html("Login successfully");
+                $(this).html("Logout");
+                //ẩn 2 thẻ input
+                username.hide();
+                password.hide();
+                //thêm 2 text
+                username.after('<span>' + username.val() + " </span>");
+                let passTemp = $("<span />").html(password.val());
+                password.after(passTemp);
+            });
+        });
+        $(function () {
+            $("#datepicker").datepicker();
+        });
+    </script>
+</body>
+</html>
